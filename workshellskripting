@@ -1,0 +1,408 @@
+#example1
+#!/bin/bash
+
+name="Alice"
+echo "Hello, $name!"
+
+[ec2-user@ip-172-31-87-48 .ssh]$ cd myproject
+[ec2-user@ip-172-31-87-48 myproject]$ sh example1.sh
+Hello, Alice!
+#!/bin/bash
+
+echo "Your home directory is: $HOME"
+echo "You are logged in as: $USER"
+echo "Your shell is: $SHELL"
+[ec2-user@ip-172-31-87-48 myproject]$ sh example2.sh
+Your home directory is: /home/ec2-user
+You are logged in as: ec2-user
+Your shell is: /bin/bash
+#!/bin/bash
+
+if [ $# -eq 4 ]; then
+    echo "First argument: $1"
+    echo "Second argument: $2"
+    echo "Third argument: $3"
+    echo "Fourth argument: $4"
+
+
+else
+    echo "Please provide exactly two arguments."
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh example3.sh
+Please provide exactly two arguments.
+[ec2-user@ip-172-31-87-48 myproject]$ sh example3.sh 1 2 3
+Please provide exactly two arguments.
+
+[ec2-user@ip-172-31-87-48 myproject]$ sh example3.sh 1 2 3
+Please provide exactly two arguments.
+[ec2-user@ip-172-31-87-48 myproject]$ sh example3.sh 1 2 3 4
+First argument: 1
+Second argument: 2
+Third argument: 3
+Fourth argument: 4
+
+#!/bin/bash
+
+echo "This script is called: $0"
+echo "It received $# arguments: $@"
+echo "The exit status of the last command is: $?"
+echo "The process ID of this script is: $$"
+echo "The process ID of the last background command is: $!"[ec2-user@ip-172-31-87-48 myproject]$ sh example4.sh 1 2 3 4
+This script is called: example4.sh
+It received 4 arguments: 1 2 3 4
+The exit status of the last command is: 0
+The process ID of this script is: 236864
+The process ID of the last background command is: 
+#!/bin/bash
+if [ "$1" -eq "$2" ]; then
+  echo "$1 is equal to $2"
+fi
+#-ne: Not equal to
+
+if [ "$1" -ne "$2" ]; then
+  echo "$1 is not equal to $2 "
+fi
+#-lt: Less than
+
+if [ "$1" -lt "$2" ]; then
+  echo "$1 is less than $2"
+fi
+#-le: Less than or equal to
+
+if [ "$1" -le "$2" ]; then
+  echo "$1 is less than or equal to $2"
+fi
+#-gt: Greater than
+
+if [ "$1" -gt "$2" ]; then
+  echo "$1 is greater than $2"
+fi
+#-ge: Greater than or equal to
+
+if [ "$1" -ge "$2" ]; then
+  echo "$1 is greater than or equal to $2"
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh equaloperators.sh 1 2
+[ec2-user@ip-172-31-87-48 myproject]$ sh equaloperators.sh 2 2
+2 is equal to 2
+[ec2-user@ip-172-31-87-48 myproject]$ sh equaloperators.sh 2 3
+equaloperators.sh: line 7: [: : integer expression expected
+[ec2-user@ip-172-31-87-48 myproject]$ sh equaloperators.sh 2 3
+2 is not equal to 3 
+[ec2-user@ip-172-31-87-48 myproject]$ sh equaloperators.sh 2 3
+2 is not equal to 3 
+2 is less than 3
+[ec2-user@ip-172-31-87-48 myproject]$ sh equaloperators.sh 2 3
+2 is not equal to 3 
+2 is less than 3
+2 is less than or equal to 3
+[ec2-user@ip-172-31-87-48 myproject]$ sh equaloperators.sh 4 3
+4 is not equal to 3 
+4 is greater than 3
+[ec2-user@ip-172-31-87-48 myproject]$ sh equaloperators.sh 5 3
+5 is not equal to 3 
+5 is greater than 3
+5 is greater than or equal to 3
+#!/bin/bash
+#=: Equal to
+
+if [ "$1" = "$2" ]; then
+  echo "$1 is equal to $2"
+fi
+#!/bin/bash
+#!=: Not equal to
+
+if [ "$1" != "$2" ]; then
+  echo "$1 is not equal to $2"
+fi
+#!bin/bash
+#<: Less than (lexicographical order)
+
+if [[ "$1" < "$2" ]]; then
+  echo "$1 is less than $2"
+fi
+#!/bin/bash
+#>: Greater than (lexicographical order)
+
+if [[ "$1" > "$2" ]]; then
+  echo "$1 is greater than $2"
+fi
+#!/bin/bash
+#-z: String is null (empty)
+
+if [ -z "$a" ]; then
+  echo "String is empty"
+fi
+#!/bin/bash
+#-n: String is not null (not empty)
+
+if [ -n "$1" ]; then
+  echo "String is not empty"
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh
+ is equal to 
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 12 12
+ is equal to 
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 12 12
+12 is equal to 12
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 12 1
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 12 1
+12 is not equal to 1
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 1 2
+1 is not equal to 2
+1 is less than 2
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 5 2
+5 is not equal to 2
+5 is greater than 2
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 
+ is equal to 
+String is empty
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 
+ is equal to 
+String is empty
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 1
+1 is not equal to 
+1 is greater than 
+String is empty
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh a
+a is not equal to 
+a is greater than 
+String is empty
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh not empty
+not is not equal to empty
+not is greater than empty
+String is empty
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 
+ is equal to 
+String is empty
+[ec2-user@ip-172-31-87-48 myproject]$ sh stringc.sh 1
+1 is not equal to 
+1 is greater than 
+String is empty
+String is not empty
+#filecomparison
+#!/bin/bash
+#-e: File exists
+
+if [ -e "$1" ]; then
+  echo "File exists"
+fi
+#-f: File is a regular file
+
+if [ -f "$1" ]; then
+  echo "File is a regular file"
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh example
+File exists
+File is a regular file
+#!/bin/bash
+
+a=5
+b=10
+file="example.txt"
+string1="hello"
+string2="world"
+##1/bin/bash
+#s: File is not empty
+if [ -s $filecomparison.sh ]; then
+  echo "File is not empty"
+else
+echo "File is empty"
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh
+[ec2-user@ip-172-31-87-48 myproject]$ wc -l filecomparison.sh
+8 filecomparison.sh
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh
+File is empty
+[ec2-user@ip-172-31-87-48 myproject]$ 
+#-r: File is readable
+
+if [ -r filecomparison.sh ]; then
+  echo "File is readable"
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh
+File is readable
+##!/bin/bash
+#w: File is writable
+
+if [ -w filecomparison.sh ]; then
+  echo "File is writable"
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh
+File is readable
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh
+File is writable
+[ec2-user@ip-172-31-87-48 myproject]$ 
+##!/bin/bash
+#-x: File is executable
+if [ -x filecomparison.sh ]; then
+  echo "File is executable"
+else
+echo "File is not executable"
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh
+filecomparison.sh: line 7: syntax error: unexpected end of file
+[ec2-user@ip-172-31-87-48 myproject]$ sh filecomparison.sh
+File is not executable
+
+# Numeric comparison
+if [ "$a" -lt "$b" ]; then
+    echo "$a is less than $b"
+fi
+
+# String comparison
+if [ "$string1" != "$string2" ]; then
+    echo "$string1 is not equal to $string2"
+fi
+
+# File comparison
+if [ -e "$file" ]; then
+    echo "File $file exists"
+else
+    echo "File $file does not exist"
+fi
+
+# String length comparison
+if [ -z "$string1" ]; then
+    echo "String is empty"
+else
+    echo "String is not empty"
+fi
+[ec2-user@ip-172-31-87-48 myproject]$ sh scriptcomparison.sh
+5 is less than 10
+hello is not equal to world
+File example.txt does not exist
+Strin String is not empt
+#for 
+The `for` loop is used to iterate over a list of items or a range of numbers.
+
+**Example 1: Iterate Over a List of Strings**
+```sh
+#!/bin/bash
+
+for NAME in Alice Bob Charlie; do
+    echo "Hello, $NAME!"
+done
+```
+
+**Example 2: Iterate Over a Range of Numbers**
+```sh
+#!/bin/bash
+
+for i in {1..5}; do
+    echo "Iteration $i"
+done
+```
+[ec2-user@ip-172-31-87-48 myproject]$ sh scriptcomparison.sh
+Hello, Alice!
+Hello, Bob!
+Hello, Charlie!
+scriptcomparison.sh: line 11: **Example: command not found
+sh-5.2$ 
+#**Example 2: Iterate Over a Range of Numbers**
+#!/bin/bash
+for i in {1..5}; do
+    echo "Iteration $i"
+done
+[ec2-user@ip-172-31-87-48 myproject]$ sh scriptcomparison.sh
+Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4
+Iteration 5
+#if- else
+The `if-else` statement allows you to execute a block of code if a condition is true and another block if the condition is false.
+
+**Example 1: Check if a File Exists**
+```sh
+#!/bin/bash
+
+FILE="example.txt"
+
+if [ -e "$FILE" ]; then
+    echo "The file $FILE exists."
+else
+    echo "The file $FILE does not exist."
+fi
+```
+
+**Example 2: Compare Two Numbers**
+```sh
+#!/bin/bash
+
+NUM1=10
+NUM2=20
+
+if [ "$NUM1" -gt "$NUM2" ]; then
+    echo "$NUM1 is greater than $NUM2."
+else
+    echo "$NUM1 is not greater than $NUM2."
+fi
+```
+[ec2-user@ip-172-31-87-48 myproject]$ sh controloperator.sh
+The file example.txt exists.
+NUM1=10
+NUM2=20
+
+if [ "$NUM1" -gt "$NUM2" ]; then
+    echo "$NUM1 is greater than $NUM2."
+else
+    echo "$NUM1 is not greater than $NUM2."
+fi 
+[ec2-user@ip-172-31-87-48 myproject]$ sh controloperator.sh
+The file example.txt exists.
+[ec2-user@ip-172-31-87-48 myproject]$ sh controloperator.sh
+10 is not greater than 20.
+#for
+The `for` loop is used to iterate over a list of items or a range of numbers.
+
+**Example 1: Iterate Over a List of Strings**
+```sh
+#!/bin/bash
+
+for NAME in Alice Bob Charlie; do
+    echo "Hello, $NAME!"
+done
+```
+
+**Example 2: Iterate Over a Range of Numbers**
+```sh
+#!/bin/bash
+
+for i in {1..5}; do
+    echo "Iteration $i"
+done
+```
+#!/bin/bash
+for NAME in Alice Bob Charlie; do
+    echo "Hello, Tin!"
+done
+done
+#2 for i in {1..5}; do
+    echo "Iteration 10"
+done
+[ec2-user@ip-172-31-87-48 myproject]$ sh controloperator.sh A B C D E F
+Iteration 10
+Iteration 10
+Iteration 10
+Iteration 10
+Iteration 10
+#while
+The `while` loop is used to execute a block of code as long as a condition is true.
+
+**Example: Monitor the Status of an EC2 Instance**
+```sh
+#!/bin/bash
+
+INSTANCE_ID="i-0abcd1234efgh5678"
+STATUS=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].State.Name" --output text)
+
+while [ "$STATUS" != "running" ]; do
+    echo "Instance status: $STATUS"
+    sleep 10
+    STATUS=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].State.Name" --output text)
+done
+
+echo "Instance is now running."
+```
